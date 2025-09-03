@@ -6,6 +6,7 @@ function getInputs() {
 
 function createLabels(list) {
   const usedIds = [];
+  let indx = 1;
 
   list.forEach((input) => {
     if (!usedIds.includes(input.id)) {
@@ -15,20 +16,17 @@ function createLabels(list) {
       placeHolderText[0] = placeHolderText[0].toUpperCase();
 
       if (input.id === '') {
-        while (true) {
-          const randomNum = Math.floor(Math.random() * 1000000000).toString();
+        const base = input.name.trim() ? input.name.trim() : 'field';
 
-          if (!document.getElementById(randomNum)) {
-            input.id = randomNum;
-
-            break;
-          }
-        }
+        input.id = `input-${base}-${indx}`;
+        indx += 1;
       }
 
       input.parentNode.appendChild(label);
 
-      input.setAttribute('placeholder', placeHolderText.join(''));
+      if (input.name) {
+        input.setAttribute('placeholder', placeHolderText.join(''));
+      }
 
       label.setAttribute('for', input.id);
       label.innerText = input.name;
